@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -21,7 +22,7 @@ public class Institute {
     private String email;
 
     @Column(name = "entered_date")
-    private LocalDate enteredDate;
+    private LocalDateTime enteredDate;
 
     @Id
     @Column(name = "institute_id")

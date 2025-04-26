@@ -6,8 +6,10 @@ import com.coachingApp.Backend.service.InstituteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class InstituteServiceImpl implements InstituteService {
@@ -17,6 +19,21 @@ public class InstituteServiceImpl implements InstituteService {
 
     @Override
     public Institute saveInstitute(Institute institute){
+
+        String instituteName = institute.getInstituteName();
+        String phoneNo = institute.getPhoneNo();
+
+        institute.setInstituteId(UUID.randomUUID().toString());
+        institute.setInstituteStatus("Active");
+        institute.setEnteredDate(LocalDateTime.now());
+
+        if (instituteName != null && instituteName.length() >= 3 && phoneNo != null && phoneNo.length() >= 2) {
+            String cleanedInstituteName = instituteName.replaceAll("\\s+", ""); // remove all spaces
+            String generatedUsername = cleanedInstituteName.substring(0, 3).toLowerCase() + phoneNo.substring(phoneNo.length() - 2);
+            institute.setUsername(generatedUsername);
+        } else {
+            institute.setUsername("NewUser");
+        }
         return instituteRepository.save(institute);
     }
 
@@ -45,6 +62,5 @@ public class InstituteServiceImpl implements InstituteService {
     public List<Institute> findInstituteByStatus(String status){
         return instituteRepository.findByInstituteStatus(status);
     }
-
 
 }
