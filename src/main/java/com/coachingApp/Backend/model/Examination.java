@@ -8,8 +8,8 @@ import java.sql.Time;
 import java.time.LocalDate;
 
 @Entity
-@Table(name="tests")
-public class Tests {
+@Table(name="examination")
+public class Examination {
 
     @Id
     private String courseid;

@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "coursespercycle")
+@Table(name = "courses_percycle")
 public class CoursesPerCycle {
 
     @Id
