@@ -28,8 +28,9 @@ public class Student {
     @Column(name = "entered_date")
     private LocalDate enteredDate;
 
-    @Column(name = "users_id_c")
-    private String usersIdC;
+    @ManyToOne
+    @JoinColumn(name = "users_id_c", referencedColumnName = "user_id")
+    private User user;
 
     @Column(name = "medium")
     private String medium;

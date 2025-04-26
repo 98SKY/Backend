@@ -8,11 +8,11 @@ import java.io.Serial;
 import java.time.LocalDate;
 
 @Entity
-@Table(name="classses")
+@Table(name="classes")
 public class Classes {
 
     @Id
-    private Serial id;
+    private Long id;
 
     private int course_id;
     private LocalDate start_date;
