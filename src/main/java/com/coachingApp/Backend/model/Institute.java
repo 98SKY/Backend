@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "institutes")
 public class Institute {
@@ -12,9 +14,9 @@ public class Institute {
     private String id;
 
     private String address;
-    private String authenticate;
+    private int authenticate;
     private String email;
-    private String enteredDate;
+    private LocalDate enteredDate;
     private String instituteId;
     private String instituteName;
     private String instituteStatus;

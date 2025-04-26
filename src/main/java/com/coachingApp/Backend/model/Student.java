@@ -1,22 +1,46 @@
 package com.coachingApp.Backend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "students")
+
+@Setter
+@Getter
+@NoArgsConstructor
 public class Student {
 
     @Id
-    private String StudentId;
+    @Column(name = "student_id")
+    private String studentId;
 
-    private String address;
-    private String enteredDate;
-    private String gender;
-    private String instituteIdC;
-    private String medium;
+    @Column(name = "name")
     private String name;
-    private String std;
+
+    @Column(name = "gender")
+    private String gender;
+
+    @Column(name = "entered_date")
+    private LocalDate enteredDate;
+
+    @Column(name = "users_id_c")
     private String usersIdC;
+
+    @Column(name = "medium")
+    private String medium;
+
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "std")
+    private String std;
+
+    @ManyToOne
+    @JoinColumn(name = "institute_id_c", referencedColumnName = "institute_id")
+    private Institute institute;
 }
