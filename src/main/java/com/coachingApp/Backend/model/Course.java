@@ -14,9 +14,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Course {
 
-    @Id
-    private String id;
+    private Long id;
 
+    @Id
     private String courseId;
     private String courseStatus;
     private LocalDate enteredDate;

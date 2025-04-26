@@ -17,10 +17,6 @@ import java.util.List;
 
 public class User {
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
-
     private String username;
     private String email;
     private String phone_no;
@@ -33,6 +29,8 @@ public class User {
 
     private String user_status;
     private String token;
+
+    @Id
     private String user_id;
     private String role_type;
     private Long authenticate;
