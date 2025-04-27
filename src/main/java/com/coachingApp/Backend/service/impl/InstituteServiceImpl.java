@@ -20,6 +20,10 @@ public class InstituteServiceImpl implements InstituteService {
     @Override
     public Institute saveInstitute(Institute institute){
 
+        if (instituteRepository.existsByEmail(institute.getEmail())) {
+            throw new RuntimeException("Email is already in use. Please use a different email.");
+        }
+
         String instituteName = institute.getInstituteName();
         String phoneNo = institute.getPhoneNo();
 

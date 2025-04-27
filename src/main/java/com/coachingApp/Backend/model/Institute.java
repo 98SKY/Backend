@@ -1,6 +1,8 @@
 package com.coachingApp.Backend.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +21,10 @@ public class Institute {
 
     private String address;
     private int authenticate;
+
+    @Email(message = "Please Enter a valid Email")
+    @NotBlank(message = "Email is Required")
+    @Column(unique = true)
     private String email;
 
     @Column(name = "entered_date")
@@ -29,6 +35,7 @@ public class Institute {
     private String instituteId;
 
     @Column(name = "institute_name")
+    @NotBlank(message = "Institute Name is required")
     private String instituteName;
 
     @Column(name = "institute_status")
@@ -37,6 +44,7 @@ public class Institute {
     private String password;
 
     @Column(name="phone_no")
+    @NotBlank(message = "Phone no is required")
     private String phoneNo;
 
     private String token;
