@@ -1,4 +1,4 @@
-package com.coachingApp.Backend.dto;
+package com.coachingApp.Backend.dto.instituteDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

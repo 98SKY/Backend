@@ -1,9 +1,12 @@
 package com.coachingApp.Backend.controller;
 
-import com.coachingApp.Backend.dto.InstituteResponse;
+import com.coachingApp.Backend.dto.instituteDto.InstituteRequest;
+import com.coachingApp.Backend.dto.instituteDto.InstituteResponse;
 import com.coachingApp.Backend.model.Institute;
 import com.coachingApp.Backend.service.InstituteService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,9 +19,16 @@ public class InstituteController {
     private InstituteService instituteService;
 
     @PostMapping
-    public InstituteResponse createInstitute(@RequestBody Institute institute) {
+    public ResponseEntity<InstituteResponse> createInstitute(@Valid @RequestBody InstituteRequest instituteRequest) {
+        Institute institute = new Institute();
+        institute.setInstituteName(instituteRequest.getInstituteName());
+        institute.setPhoneNo(instituteRequest.getPhoneNo());
+        institute.setEmail(instituteRequest.getEmail());
+        institute.setAddress(instituteRequest.getAddress());
+
         Institute savedInstitute = instituteService.saveInstitute(institute);
-        return new InstituteResponse(savedInstitute.getUsername());
+        return ResponseEntity.status(201).body(new InstituteResponse(savedInstitute.getUsername()));
+
     }
 
 

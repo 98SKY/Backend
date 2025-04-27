@@ -8,4 +8,5 @@ import java.util.List;
 public interface InstituteRepository  extends JpaRepository<Institute, String> {
 
     List<Institute> findByInstituteStatus(String instituteStatus);
+    boolean existsByEmail(String email);
 }
