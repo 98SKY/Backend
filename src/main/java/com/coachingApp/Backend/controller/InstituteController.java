@@ -3,6 +3,7 @@ package com.coachingApp.Backend.controller;
 import com.coachingApp.Backend.dto.instituteDto.InstituteRequest;
 import com.coachingApp.Backend.dto.instituteDto.InstituteResponse;
 import com.coachingApp.Backend.model.Institute;
+import com.coachingApp.Backend.response.ApiResponse;
 import com.coachingApp.Backend.service.InstituteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class InstituteController {
     private InstituteService instituteService;
 
     @PostMapping
-    public ResponseEntity<InstituteResponse> createInstitute(@Valid @RequestBody InstituteRequest instituteRequest) {
+    public ResponseEntity<ApiResponse<InstituteResponse>> createInstitute(@Valid @RequestBody InstituteRequest instituteRequest) {
         Institute institute = new Institute();
         institute.setInstituteName(instituteRequest.getInstituteName());
         institute.setPhoneNo(instituteRequest.getPhoneNo());
@@ -27,7 +28,16 @@ public class InstituteController {
         institute.setAddress(instituteRequest.getAddress());
 
         Institute savedInstitute = instituteService.saveInstitute(institute);
-        return ResponseEntity.status(201).body(new InstituteResponse(savedInstitute.getUsername()));
+
+        InstituteResponse instituteResponse = new InstituteResponse(savedInstitute.getUsername());
+
+        ApiResponse<InstituteResponse> response = new ApiResponse<>(
+                "Institute created successfully",
+                201,
+                instituteResponse
+        );
+
+        return ResponseEntity.status(201).body(response);
 
     }
 
