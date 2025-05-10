@@ -43,7 +43,7 @@ public class Institute {
 
     private String password;
 
-    @Column(name="phone_no")
+    @Column(name = "phone_no")
     @NotBlank(message = "Phone no is required")
     private String phoneNo;
 

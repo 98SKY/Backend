@@ -16,27 +16,27 @@ public class StudentServiceImpl implements StudentService {
     private StudentRepository studentRepository;
 
     @Override
-    public Student saveStudent(Student student){
+    public Student saveStudent(Student student) {
         return studentRepository.save(student);
     }
 
     @Override
-    public List<Student> getAllStudent(){
+    public List<Student> getAllStudent() {
         return studentRepository.findAll();
     }
 
     @Override
-    public Student getStudentById(String studentId){
+    public Student getStudentById(String studentId) {
         Optional<Student> optionalStudent = studentRepository.findById(studentId);
         return optionalStudent.orElse(null);
     }
 
     @Override
-    public Student updateStudent(Student student){
+    public Student updateStudent(Student student) {
         return studentRepository.save(student);
     }
 
-    public boolean existStudent(String studentId){
+    public boolean existStudent(String studentId) {
         return studentRepository.existsById(studentId);
     }
 

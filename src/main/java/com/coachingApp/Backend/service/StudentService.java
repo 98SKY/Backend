@@ -4,7 +4,7 @@ import com.coachingApp.Backend.model.Student;
 
 import java.util.List;
 
-public interface StudentService  {
+public interface StudentService {
     Student saveStudent(Student student);
 
     List<Student> getAllStudent();

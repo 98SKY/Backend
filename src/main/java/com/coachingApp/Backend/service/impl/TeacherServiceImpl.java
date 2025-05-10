@@ -16,28 +16,28 @@ public class TeacherServiceImpl implements TeacherService {
     private TeacherRepository teacherRepository;
 
     @Override
-    public List<Teacher> getAllTeacher(){
+    public List<Teacher> getAllTeacher() {
         return teacherRepository.findAll();
     }
 
     @Override
-    public Teacher saveTeacher(Teacher teacher){
+    public Teacher saveTeacher(Teacher teacher) {
         return teacherRepository.save(teacher);
     }
 
     @Override
-    public Teacher getTeacherById(String teacherId){
+    public Teacher getTeacherById(String teacherId) {
         Optional<Teacher> optionalTeacher = teacherRepository.findById(teacherId);
         return optionalTeacher.orElse(null);
     }
 
     @Override
-    public Teacher updateTeacher(Teacher teacher){
+    public Teacher updateTeacher(Teacher teacher) {
         return teacherRepository.save(teacher);
     }
 
     @Override
-    public Boolean existTeacher(String teacherId){
+    public Boolean existTeacher(String teacherId) {
         return teacherRepository.existsById(teacherId);
     }
 }

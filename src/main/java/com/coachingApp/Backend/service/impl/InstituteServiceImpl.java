@@ -18,7 +18,7 @@ public class InstituteServiceImpl implements InstituteService {
     private InstituteRepository instituteRepository;
 
     @Override
-    public Institute saveInstitute(Institute institute){
+    public Institute saveInstitute(Institute institute) {
 
         if (instituteRepository.existsByEmail(institute.getEmail())) {
             throw new RuntimeException("Email is already in use. Please use a different email.");
@@ -42,28 +42,28 @@ public class InstituteServiceImpl implements InstituteService {
     }
 
     @Override
-    public List<Institute> getAllInstitute(){
+    public List<Institute> getAllInstitute() {
         return instituteRepository.findAll();
     }
 
     @Override
-    public Institute getInstituteById(String instituteId){
+    public Institute getInstituteById(String instituteId) {
         Optional<Institute> optionalInstitute = instituteRepository.findById(instituteId);
         return optionalInstitute.orElse(null);
     }
 
     @Override
-    public Institute updateInstitute(Institute institute){
+    public Institute updateInstitute(Institute institute) {
         return instituteRepository.save(institute);
     }
 
     @Override
-    public boolean existInstitute(String instituteId){
+    public boolean existInstitute(String instituteId) {
         return instituteRepository.existsById(instituteId);
     }
 
     @Override
-    public List<Institute> findInstituteByStatus(String status){
+    public List<Institute> findInstituteByStatus(String status) {
         return instituteRepository.findByInstituteStatus(status);
     }
 

@@ -6,14 +6,17 @@ import com.coachingApp.Backend.model.Institute;
 import com.coachingApp.Backend.response.ApiResponse;
 import com.coachingApp.Backend.service.InstituteService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.UUID;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/register")
 public class InstituteController {
@@ -30,7 +33,7 @@ public class InstituteController {
 
         String rawPassword = generateRandomPassword(); // generate password
         String encodedPassword = passwordEncoder.encode(rawPassword);
-
+//        log.atInfo().log(rawPassword);
         Institute institute = new Institute();
         institute.setInstituteName(instituteRequest.getInstituteName());
         institute.setPhoneNo(instituteRequest.getPhoneNo());
@@ -42,11 +45,7 @@ public class InstituteController {
 
         InstituteResponse instituteResponse = new InstituteResponse(savedInstitute.getUsername());
 
-        ApiResponse<InstituteResponse> response = new ApiResponse<>(
-                "Institute created successfully",
-                201,
-                instituteResponse
-        );
+        ApiResponse<InstituteResponse> response = new ApiResponse<>("Institute created successfully", 201, instituteResponse);
 
         return ResponseEntity.status(201).body(response);
 
@@ -54,12 +53,12 @@ public class InstituteController {
 
 
     @GetMapping
-    public List<Institute> getAllInstitutes(){
+    public List<Institute> getAllInstitutes() {
         return instituteService.findInstituteByStatus("Active");
     }
 
     @GetMapping("/{Id}")
-    public Institute getInstituteById(@PathVariable  String Id){
+    public Institute getInstituteById(@PathVariable String Id) {
         return instituteService.getInstituteById(Id);
     }
 

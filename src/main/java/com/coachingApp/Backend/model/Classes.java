@@ -8,7 +8,7 @@ import java.io.Serial;
 import java.time.LocalDate;
 
 @Entity
-@Table(name="classes")
+@Table(name = "classes")
 public class Classes {
 
     @Id

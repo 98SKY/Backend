@@ -15,17 +15,17 @@ public class CourseMasterServiceImpl implements CourseMasterService {
     private CourseMasterRepository courseMasterRepository;
 
     @Override
-    public CourseMaster saveCourseMaster(CourseMaster courseMaster){
+    public CourseMaster saveCourseMaster(CourseMaster courseMaster) {
         return courseMasterRepository.save(courseMaster);
     }
 
     @Override
-    public CourseMaster getAllCourseByInstitute(String instituteId){
+    public CourseMaster getAllCourseByInstitute(String instituteId) {
         Optional<CourseMaster> optionalCourseMaster = courseMasterRepository.findById(instituteId);
         return optionalCourseMaster.orElse(null);
     }
 
-    public CourseMaster updateCourseMaster(CourseMaster courseMaster){
+    public CourseMaster updateCourseMaster(CourseMaster courseMaster) {
         return courseMasterRepository.save(courseMaster);
     }
 

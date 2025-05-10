@@ -20,35 +20,24 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Map<String, String>>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
 
-        ex.getBindingResult().getFieldErrors().forEach(error ->
-                errors.put(error.getField(), error.getDefaultMessage())
-        );
+        ex.getBindingResult().getFieldErrors().forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
 
         log.warn("Validation failed: {}", errors);
 
-        return new ResponseEntity<>(
-                new ApiResponse<>("Validation failed", 400, errors),
-                HttpStatus.BAD_REQUEST
-        );
+        return new ResponseEntity<>(new ApiResponse<>("Validation failed", 400, errors), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ApiResponse<String>> handleConstraintViolation(ConstraintViolationException ex) {
         log.warn("Constraint violation: {}", ex.getMessage());
 
-        return new ResponseEntity<>(
-                new ApiResponse<>(ex.getMessage(), 400, null),
-                HttpStatus.BAD_REQUEST
-        );
+        return new ResponseEntity<>(new ApiResponse<>(ex.getMessage(), 400, null), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<String>> handleGeneralException(Exception ex) {
         log.error("Unexpected error occurred", ex);
 
-        return new ResponseEntity<>(
-                new ApiResponse<>("Internal Server Error: " + ex.getMessage(), 500, null),
-                HttpStatus.INTERNAL_SERVER_ERROR
-        );
+        return new ResponseEntity<>(new ApiResponse<>("Internal Server Error: " + ex.getMessage(), 500, null), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

@@ -19,7 +19,7 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    @PostMapping("/api/login")
+    @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         try {
             LoginResponse response = authService.login(loginRequest);

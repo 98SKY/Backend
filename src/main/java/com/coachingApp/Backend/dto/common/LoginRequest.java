@@ -3,8 +3,8 @@ package com.coachingApp.Backend.dto.common;
 public class LoginRequest {
     private String username;
     private String password;
-    private String userType;     // "institute", "student", or "teacher"
-    private String instituteId;  // Required only for students/teachers
+    private String userType;
+    private String instituteId;
 
     // ✅ Getters and Setters
 

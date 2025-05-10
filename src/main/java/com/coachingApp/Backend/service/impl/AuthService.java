@@ -7,12 +7,15 @@ import com.coachingApp.Backend.model.Institute;
 import com.coachingApp.Backend.model.User;
 import com.coachingApp.Backend.repository.InstituteRepository;
 import com.coachingApp.Backend.repository.UserRepository;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Service
@@ -21,12 +24,9 @@ public class AuthService {
     private final InstituteRepository instituteRepository;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final String jwtSecret;  // JWT secret key
+    private final String jwtSecret;
 
-    public AuthService(InstituteRepository instituteRepository,
-                       UserRepository userRepository,
-                       BCryptPasswordEncoder passwordEncoder,
-                       @Value("${jwt.secret}") String jwtSecret) {
+    public AuthService(InstituteRepository instituteRepository, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, @Value("${jwt.secret}") String jwtSecret) {
         this.instituteRepository = instituteRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -45,8 +45,7 @@ public class AuthService {
     }
 
     private LoginResponse loginInstitute(LoginRequest request) {
-        Institute institute = instituteRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new UnauthorizedException("Invalid institute credentials"));
+        Institute institute = instituteRepository.findByUsername(request.getUsername()).orElseThrow(() -> new UnauthorizedException("Invalid institute credentials"));
 
         // Verify password using BCrypt
         if (!passwordEncoder.matches(request.getPassword(), institute.getPassword())) {
@@ -54,7 +53,7 @@ public class AuthService {
         }
 
         // Generate JWT token
-        String token = generateToken(Long.valueOf(institute.getInstituteId()), "institute");
+        String token = generateToken(institute.getInstituteId(), "institute");
 
         return new LoginResponse(institute.getInstituteId(), "institute", "Login successful", token);
     }
@@ -64,8 +63,7 @@ public class AuthService {
             throw new IllegalArgumentException("Institute ID is required for students/teachers");
         }
 
-        User user = userRepository.findByUsernameAndInstitute_InstituteId(request.getUsername(), request.getInstituteId())
-                .orElseThrow(() -> new UnauthorizedException("Invalid user credentials"));
+        User user = userRepository.findByUsernameAndInstitute_InstituteId(request.getUsername(), request.getInstituteId()).orElseThrow(() -> new UnauthorizedException("Invalid user credentials"));
 
         // Verify password using BCrypt
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
@@ -73,22 +71,19 @@ public class AuthService {
         }
 
         // Generate JWT token
-        String token = generateToken(Long.valueOf(user.getUserId()), request.getUserType());
+        String token = generateToken(user.getUserId(), request.getUserType());
 
         return new LoginResponse(user.getUserId(), request.getUserType(), "Login successful", token);
     }
 
-    private String generateToken(Long userId, String userType) {
-        // Set token expiration time (e.g., 1 hour)
+    private String generateToken(String userId, String userType) {
         Date expirationDate = new Date(System.currentTimeMillis() + 3600000);
 
-        // Generate the token
-        return Jwts.builder()
-                .setSubject(String.valueOf(userId))
-                .claim("role", userType)
-                .setIssuedAt(new Date())
-                .setExpiration(expirationDate)
-                .signWith(SignatureAlgorithm.HS256, jwtSecret)
+        // Convert the string to bytes and generate a strong secret key
+        SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
+
+        return Jwts.builder().setSubject(String.valueOf(userId)).claim("role", userType).setIssuedAt(new Date()).setExpiration(expirationDate).signWith(key, SignatureAlgorithm.HS256) // Correct way to sign
                 .compact();
     }
+
 }
