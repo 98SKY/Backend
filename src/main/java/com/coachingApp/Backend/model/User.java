@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serial;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,41 +13,47 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-
 public class User {
+
+    @Id
+    @Column(name = "user_id")
+    private String userId;
 
     private String username;
     private String email;
-    private String phone_no;
+
+    @Column(name = "phone_no")
+    private String phoneNo;
+
     private String password;
 
     @ManyToOne
     @JoinColumn(name = "institute_id_c", referencedColumnName = "institute_id")
     private Institute institute;
 
+    @Column(name = "user_status")
+    private String userStatus;
 
-    private String user_status;
     private String token;
 
-    @Id
-    private String user_id;
-    private String role_type;
-    private Long authenticate;
-    private LocalDate entered_date;
+    @Column(name = "role_type")
+    private String roleType;
 
-    // One User can have multiple students, hence a list of students
+    private Long authenticate;
+
+    @Column(name = "entered_date")
+    private LocalDate enteredDate;
+
     @OneToMany(mappedBy = "user")
     private List<Student> students;
 
     // Method to check if the User is a Student
     public boolean isStudent() {
-        return "student".equalsIgnoreCase(role_type);
+        return "student".equalsIgnoreCase(roleType);
     }
 
     // Method to check if the User is a Teacher
     public boolean isTeacher() {
-        return "teacher".equalsIgnoreCase(role_type);
+        return "teacher".equalsIgnoreCase(roleType);
     }
-
-
 }

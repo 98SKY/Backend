@@ -8,7 +8,9 @@ import com.coachingApp.Backend.service.InstituteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import java.util.UUID;
 
 import java.util.List;
 
@@ -19,13 +21,22 @@ public class InstituteController {
     @Autowired
     private InstituteService instituteService;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
+
     @PostMapping
     public ResponseEntity<ApiResponse<InstituteResponse>> createInstitute(@Valid @RequestBody InstituteRequest instituteRequest) {
+
+        String rawPassword = generateRandomPassword(); // generate password
+        String encodedPassword = passwordEncoder.encode(rawPassword);
+
         Institute institute = new Institute();
         institute.setInstituteName(instituteRequest.getInstituteName());
         institute.setPhoneNo(instituteRequest.getPhoneNo());
         institute.setEmail(instituteRequest.getEmail());
         institute.setAddress(instituteRequest.getAddress());
+        institute.setPassword(encodedPassword);
 
         Institute savedInstitute = instituteService.saveInstitute(institute);
 
@@ -50,5 +61,10 @@ public class InstituteController {
     @GetMapping("/{Id}")
     public Institute getInstituteById(@PathVariable  String Id){
         return instituteService.getInstituteById(Id);
+    }
+
+    private String generateRandomPassword() {
+        // Example: 8-char alphanumeric password
+        return UUID.randomUUID().toString().substring(0, 8);
     }
 }
